@@ -1,0 +1,8 @@
+# config
+config/airflow.cfg
+
+# logs
+logs
+
+# secrets
+.env
