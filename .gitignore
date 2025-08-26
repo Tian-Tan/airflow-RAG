@@ -6,3 +6,6 @@ logs
 
 # secrets
 .env
+
+# pycache
+__pycache__
