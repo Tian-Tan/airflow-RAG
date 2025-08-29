@@ -1,5 +1,5 @@
 #  airflow imports
-from airflow.decorators import dag, task
+# from airflow.decorators import dag, task
 
 # utility imports
 import requests
@@ -20,4 +20,24 @@ def pipeline():
     @task
     def extract():
         url = f"{SODA_ENDPOINT}?{SODA_CLAUSE}"
-        print(requests.get(url).json())
+        KEYS_TO_KEEP = {        # which keys to keep from the raw data
+        "incident_id",
+        "incident_date",
+        "incident_time",
+        "incident_year",
+        "incident_day_of_week",
+        "incident_category",
+        "incident_subcategory",
+        "incident_description",
+        "resolution",
+        "police_district",
+        "analysis_neighborhood",
+        "intersection",
+        "latitude",
+        "longitude"
+        }
+        raw_data = requests.get(url).json()
+        trimmed_data = [        # keep only the useful keys of the raw data
+            {k:d[k] for k in KEYS_TO_KEEP if k in d} for d in raw_data
+        ]
+        print(trimmed_data)
